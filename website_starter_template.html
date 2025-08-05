@@ -1,0 +1,300 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Notes - Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo"><img src="Logo nightnotes.png" alt="Night Notes logo"></div>
+      <h1>Welkom CEO</h1>
+      <form id="login-form" action="home/">
+        <label for="username">Gebruikersnaam</label>
+        <input type="text" id="username" placeholder="Voer je gebruikersnaam in" required>
+        <label for="password">Wachtwoord</label>
+        <input type="password" id="password" placeholder="Voer je wachtwoord in" required>
+        <button type="submit">Log-in</button>
+      </form>
+      <p class="error" id="error"></p>
+    </div>
+  </div>
+  <script src="script.js" defer></script>
+</body>
+</html>
+
+<!-- style.css -->
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1e1e2f; color: #fff; font-family: Arial, sans-serif; }
+.login-container { height: 100vh; display: flex; justify-content: center; align-items: center; }
+.login-card { background: #222; padding: 30px; border-radius: 10px; width: 300px; text-align: center; }
+.login-card .logo img { width: 150px; margin-bottom: 20px; }
+.login-card h1 { margin-bottom: 20px; }
+.login-card label { display: block; text-align: left; margin-bottom: 5px; }
+.login-card input { width: 100%; padding: 8px; margin-bottom: 15px; border: none; border-radius: 5px; background: #2b2b3a; color: #fff; }
+.login-card button { width: 100%; padding: 10px; background: #4a47a3; border: none; border-radius: 5px; color: #fff; cursor: pointer; }
+.login-card .error { color: #f66; height: 1em; margin-top: 5px; }
+
+/* Home overview */
+header.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2b2b3a;
+  padding: 10px 20px;
+  position: relative;
+}
+header.header .logo {
+  margin-right: auto;
+}
+header.header .logo img.header-logo {
+  width: 80px;
+  height: auto;
+}
+header.header nav {
+  display: flex;
+  gap: 10px;
+}
+header.header nav button {
+  background: #4a47a3;
+  border: none;
+  padding: 8px 16px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+header.header nav button.active {
+  background: #6a67c5;
+}
+header.header .welcome {
+  margin-left: auto;
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+main {
+  padding: 20px;
+}
+.content-panel {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #222;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+.table-container {
+  overflow-x: auto;
+}
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.calendar-table th,
+.calendar-table td {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  text-align: center;
+  color: #fff;
+}
+.calendar-table thead th {
+  background: #3e3b78;
+  position: sticky;
+  top: 0;
+}
+.hidden { display: none; }
+
+/* Tasks view */
+#task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#task span {
+  color: #fff;
+  font-size: 1rem;
+}
+#t-check {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  accent-color: #4a47a3;
+}
+
+<!-- home/index.html -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Notes - Overzicht</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo"><img src="../Logo nightnotes.png" alt="Night Notes logo" class="header-logo"></div>
+    <nav>
+      <button id="view-cal" class="active">EP Kalender</button>
+      <button id="view-tasks">Taken</button>
+    </nav>
+    <div class="welcome">Welkom <span id="user"></span></div>
+  </header>
+  <main>
+    <section id="calendar" class="content-panel">
+      <div class="table-container">
+        <table class="calendar-table">
+          <thead>
+            <tr><th>Datum</th><th>Artiest</th><th>Wie?</th><th>Distributie</th><th>Status</th></tr>
+          </thead>
+          <tbody id="cal-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <section id="tasks" class="content-panel hidden">
+      <div id="task">
+        <span id="t-date"></span>
+        <span id="t-name"></span>
+        <span id="t-who"></span>
+        <span id="t-dist"></span>
+        <input type="checkbox" id="t-check">
+      </div>
+    </section>
+  </main>
+  <script src="home.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('user').textContent = localStorage.getItem('user');
+    });
+  </script>
+</body>
+</html>
+
+<!-- home/home.js updated -->
+// home/home.js
+
+// 1. Plak hier ALLE regels die je gestuurd hebt (van 15-08-2025 t/m 31-12-2025)
+const rawEntries = [
+  ['15-08-2025','Luna Nights','Martijn','Distrokid'],
+  ['16-08-2025','Ava Willow','Martijn','Distrokid'],
+  ['17-08-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['18-08-2025','Motionless','Martijn','Distrokid'],
+  ['19-08-2025','Loomy','Nuno','Distrokid'],
+  ['20-08-2025','Lila Serene','Nuno','Distrokid'],
+  ['21-08-2025','Soft Dawn','Nuno','Distrokid'],
+  ['22-08-2025','Nunery Dream','Nuno','Distrokid'],
+  ['23-08-2025','Celestine Viora','Nuno','Distrokid'],
+  ['24-08-2025','Ludo Legato','Martijn','Distrokid'],
+  ['25-08-2025','Muted Mind','Nuno','Distrokid'],
+  ['26-08-2025','Swooshy','Nuno','Distrokid'],
+  ['27-08-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['28-08-2025','Krople','Martijn','Distrokid'],
+  ['29-08-2025','Katty','Martijn','Distrokid'],
+  ['30-08-2025','Sophia Vale','Martijn','Distrokid'],
+  ['31-08-2025','Domindo Nuni','Martijn','Distrokid'],
+  ['01-09-2025','Motionless','Martijn','Distrokid'],
+  ['02-09-2025','Loomy','Nuno','Distrokid'],
+  ['03-09-2025','Eleanor Moon','Nuno','Distrokid'],
+  ['04-09-2025','Luna Nights','Martijn','Distrokid'],
+  ['05-09-2025','Ava Willow','Martijn','Distrokid'],
+  ['06-09-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['07-09-2025','Lila Serene','Nuno','Distrokid'],
+  ['08-09-2025','Muted Mind','Nuno','Distrokid'],
+  ['09-09-2025','Swooshy','Nuno','Distrokid'],
+  ['10-09-2025','Soft Dawn','Nuno','Distrokid'],
+  ['11-09-2025','Nunery Dream','Nuno','Distrokid'],
+  ['12-09-2025','Celestine Viora','Nuno','Distrokid'],
+  ['13-09-2025','Ludo Legato','Martijn','Distrokid'],
+  ['14-09-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['15-09-2025','Motionless','Martijn','Distrokid'],
+  ['16-09-2025','Loomy','Nuno','Distrokid'],
+  ['17-09-2025','Katty','Martijn','Distrokid'],
+  ['18-09-2025','Sophia Vale','Martijn','Distrokid'],
+  ['19-09-2025','Domindo Nuni','Martijn','Distrokid'],
+  ['20-09-2025','Eleanor Moon','Nuno','Distrokid'],
+  ['21-09-2025','Luna Nights','Martijn','Distrokid'],
+  ['22-09-2025','Ava Willow','Martijn','Distrokid'],
+  ['23-09-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['24-09-2025','Lila Serene','Nuno','Distrokid'],
+  ['25-09-2025','Soft Dawn','Nuno','Distrokid'],
+  ['26-09-2025','Nunery Dream','Nuno','Distrokid'],
+  ['27-09-2025','Celestine Viora','Nuno','Distrokid'],
+  ['28-09-2025','Ludo Legato','Martijn','Distrokid'],
+  ['29-09-2025','Muted Mind','Nuno','Distrokid'],
+  ['30-09-2025','Swooshy','Nuno','Distrokid'],
+  ['01-10-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['02-10-2025','Krople','Martijn','Distrokid'],
+  ['03-10-2025','Katty','Martijn','Distrokid'],
+  ['04-10-2025','Soft Dawn','Nuno','Distrokid'],
+  ['05-10-2025','Nunery Dream','Nuno','Distrokid'],
+  ['06-10-2025','Celestine Viora','Nuno','Distrokid'],
+  ['07-10-2025','Ludo Legato','Martijn','Distrokid'],
+  ['08-10-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['09-10-2025','Ava Willow','Martijn','Distrokid'],
+  ['10-10-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['11-10-2025','Lila Serene','Nuno','Distrokid'],
+  ['12-10-2025','Soft Dawn','Nuno','Distrokid'],
+  ['13-10-2025','Nunery Dream','Nuno','Distrokid'],
+  ['14-10-2025','Celestine Viora','Nuno','Distrokid'],
+  ['15-10-2025','Ludo Legato','Martijn','Distrokid'],
+  ['16-10-2025','Muted Mind','Nuno','Distrokid'],
+  ['17-10-2025','Lila Serene','Nuno','Distrokid'],
+  ['18-10-2025','Soft Dawn','Nuno','Distrokid'],
+  ['19-10-2025','Nunery Dream','Nuno','Distrokid'],
+  ['22-10-2025','Celestine Viora','Nuno','Distrokid'],
+  ['23-10-2025','Ludo Legato','Martijn','Distrokid'],
+  ['24-10-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['25-10-2025','Krople','Martijn','Distrokid'],
+  ['26-10-2025','Katty','Martijn','Distrokid'],
+  ['29-10-2025','Sophia Vale','Martijn','Distrokid'],
+  ['30-10-2025','Domindo Nuni','Martijn','Distrokid'],
+  ['31-10-2025','Eleanor Moon','Nuno','Distrokid'],
+  ['01-11-2025','Luna Nights','Martijn','Distrokid'],
+  ['02-11-2025','Ava Willow','Martijn','Distrokid'],
+  ['05-11-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['06-11-2025','Lila Serene','Nuno','Distrokid'],
+  ['07-11-2025','Soft Dawn','Nuno','Distrokid'],
+  ['08-11-2025','Nunery Dream','Nuno','Distrokid'],
+  ['09-11-2025','Celestine Viora','Nuno','Distrokid'],
+  ['12-11-2025','Ludo Legato','Martijn','Distrokid'],
+  ['13-11-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['14-11-2025','Krople','Martijn','Distrokid'],
+  ['15-11-2025','Katty','Martijn','Distrokid'],
+  ['16-11-2025','Sophia Vale','Martijn','Distrokid'],
+  ['19-11-2025','Domindo Nuni','Martijn','Distrokid'],
+  ['20-11-2025','Eleanor Moon','Nuno','Distrokid'],
+  ['21-11-2025','Luna Nights','Martijn','Distrokid'],
+  ['22-11-2025','Ava Willow','Martijn','Distrokid'],
+  ['23-11-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['26-11-2025','Lila Serene','Nuno','Distrokid'],
+  ['27-11-2025','Soft Dawn','Nuno','Distrokid'],
+  ['28-11-2025','Nunery Dream','Nuno','Distrokid'],
+  ['29-11-2025','Celestine Viora','Nuno','Distrokid'],
+  ['30-11-2025','Ludo Legato','Martijn','Distrokid'],
+  ['03-12-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['04-12-2025','Krople','Martijnt','Distrokid'],
+  ['05-12-2025','Katty','Martijnt','Distrokid'],
+  ['06-12-2025','Sophia Vale','Martijnt','Distrokid'],
+  ['07-12-2025','Domindo Nuni','Martijnt','Distrokid'],
+  ['10-12-2025','Eleanor Moon','Nuno','Distrokid'],
+  ['11-12-2025','Luna Nights','Martijnt','Distrokid'],
+  ['12-12-2025','Ava Willow','Martijnt','Distrokid'],
+  ['13-12-2025','Sleepy Delrow','Nuno','Distrokid'],
+  ['14-12-2025','Lila Serene','Nuno','Distrokid'],
+  ['17-12-2025','Soft Dawn','Nuno','Distrokid'],
+  ['18-12-2025','Nunery Dream','Nuno','Distrokid'],
+  ['19-12-2025','Celestine Viora','Nuno','Distrokid'],
+  ['20-12-2025','Ludo Legato','Martijn','Distrokid'],
+  ['21-12-2025','Evelyn Winter','Martijn','Distrokid'],
+  ['24-12-2025','Krople','Martijnt','Distrokid'],
+  ['25-12-2025','Katty','Martijnt','Distrokid'],
+  ['26-12-2025','Sophia Vale','Martijnt','Distrokid'],
+  ['27-12-2025','Domindo Nuni','Martijnt','Distrokid'],
+  ['28-12-2025','Eleanor Moon','Nuno','Distrokid'],
+  ['29-12-2025','Muted Mind','Nuno','Distrokid'],
+  ['30-12-2025','Swooshy','Nuno','Distrokid'],
+  ['31-12-2025','Luna Nights','Martijn','Distrokid']
+];]

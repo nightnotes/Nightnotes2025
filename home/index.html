@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Notes – Overzicht</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* --- Tab‑stijl ook voor link‑buttons --- */
+    .nav-btn{
+      display:inline-block;background:#444c9c;color:#fff;border:none;
+      padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;
+      text-decoration:none;font-size:0.9rem;transition:background .15s;
+    }
+    .nav-btn:hover,.nav-btn.active{background:#5a62c6}
+    .quick-tabs{display:flex;justify-content:center;gap:12px;margin:10px 0 18px}
+    .quick-tabs .nav-btn{padding:6px 16px;font-size:.85rem}
+  
+/* Glass‑morphism cards */
+.glass-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+.table-container { padding: 12px; }
+
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo"><img src="../Logo nightnotes.png" alt="Night Notes logo" class="header-logo"></div>
+    <nav>
+      <button id="view-cal" class="nav-btn active">RELEASES</button>
+      <button id="view-tasks" class="nav-btn">EP CHECKLIST</button>
+      <button id="view-artworks" class="nav-btn">ARTWORKS</button>
+      <button id="view-ads" class="nav-btn">ADVERTENTIEBEHEER</button>
+    </nav>
+    <div class="welcome">Welkom <span id="user"></span><button id="logout-btn" class="logout-btn">Log out</button></div>
+  </header>
+
+  <main>
+    <!-- RELEASES -->
+    <section id="calendar" class="content-panel">
+      <div class="table-container glass-card">
+        <table class="calendar-table">
+          <thead><tr><th>Datum</th><th>Artiest</th><th>Wie?</th><th>Distributie</th><th>Status</th></tr></thead>
+          <tbody id="cal-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- EP CHECKLIST -->
+    <section id="tasks" class="content-panel hidden">
+      <div class="quick-tabs glass-card" style="padding:8px;">
+        <button type="button" class="nav-btn quick-tab" id="link-distrokid">DISTROKID</button>
+        <button type="button" class="nav-btn quick-tab" id="link-amuse">AMUSE</button>
+        <button type="button" class="nav-btn quick-tab" id="link-buma">BUMA/STEMRA</button>
+      </div>
+
+      <div class="table-container glass-card">
+        <table class="checklist-table">
+          <thead><tr><th>Datum</th><th>Artiest</th><th>Wie?</th><th>Distributie</th><th>Splits</th><th>Buma/Stemra</th><th>Klaar</th></tr></thead>
+          <tbody id="task-row"></tbody>
+        </table>
+        <div id="last-completed" class="last-completed hidden"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="home.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>

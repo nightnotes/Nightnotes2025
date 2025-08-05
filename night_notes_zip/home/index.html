@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Notes - Overzicht</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo"><img src="../Logo nightnotes.png" alt="Night Notes logo" class="header-logo"></div>
+    <nav>
+      <button id="view-cal" class="active">EP Kalender</button>
+      <button id="view-tasks">Taken</button>
+      <button id="view-artworks">Artworks</button>
+    </nav>
+    <div class="welcome">Welkom <span id="user"></span></div>
+  </header>
+  <main>
+    <section id="calendar" class="content-panel">
+      <div class="table-container">
+        <table class="calendar-table">
+          <thead>
+            <tr><th>Datum</th><th>Artiest</th><th>Wie?</th><th>Distributie</th><th>Status</th></tr>
+          </thead>
+          <tbody id="cal-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <section id="tasks" class="content-panel hidden">
+      <div id="task">
+        <span id="t-date"></span>
+        <span id="t-name"></span>
+        <span id="t-who"></span>
+        <span id="t-dist"></span>
+        <input type="checkbox" id="t-check">
+      </div>
+    </section>
+  </main>
+  <script src="home.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCal(); nextTask();
+      document.getElementById('view-cal').onclick = () => {
+        document.getElementById('calendar').classList.remove('hidden');
+        document.getElementById('tasks').classList.add('hidden');
+        document.getElementById('view-cal').classList.add('active');
+        document.getElementById('view-tasks').classList.remove('active');
+      };
+      document.getElementById('view-tasks').onclick = () => {
+        document.getElementById('tasks').classList.remove('hidden');
+        document.getElementById('calendar').classList.add('hidden');
+        document.getElementById('view-tasks').classList.add('active');
+        document.getElementById('view-cal').classList.remove('active');
+      };
+      document.getElementById('view-artworks').onclick = () => {
+        window.open('https://drive.google.com/drive/folders/1jZpWCyjCzOlqNfuVA7QrpDu_npU0A8_g?usp=sharing', '_blank');
+      };
+      document.getElementById('user').textContent = localStorage.getItem('user');
+    });
+  </script>
+</body>
+</html>

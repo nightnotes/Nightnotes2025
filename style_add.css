@@ -1,0 +1,10 @@
+/* nav-btn reuse ensures same styling */
+.quick-tabs {
+  margin: 10px 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.quick-tabs .nav-btn {
+  font-size: 0.9rem;
+}
